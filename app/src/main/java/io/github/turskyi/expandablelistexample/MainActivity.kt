@@ -7,6 +7,10 @@ import android.widget.SimpleExpandableListAdapter
 import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
+/**
+ * kotlin version of the lesson from
+ * https://startandroid.ru/ru/uroki/vse-uroki-spiskom/86-urok-45-spisok-derevo-expandablelistview.html
+ */
 class MainActivity : AppCompatActivity() {
     /** names of companies (groups) */
     var groups = arrayOf("HTC", "Samsung", "LG")
