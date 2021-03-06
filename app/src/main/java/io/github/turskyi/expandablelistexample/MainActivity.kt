@@ -1,32 +1,34 @@
 package io.github.turskyi.expandablelistexample
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.View
 import android.widget.ExpandableListView
 import android.widget.SimpleExpandableListAdapter
+import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
-class MainActivity : Activity() {
-    // названия компаний (групп)
+class MainActivity : AppCompatActivity() {
+    /** names of companies (groups) */
     var groups = arrayOf("HTC", "Samsung", "LG")
 
-    // названия телефонов (элементов)
-    var phonesHTC = arrayOf("Sensation", "Desire", "Wildfire", "Hero")
-    var phonesSams = arrayOf("Galaxy S II", "Galaxy Nexus", "Wave")
-    var phonesLG = arrayOf("Optimus", "Optimus Link", "Optimus Black", "Optimus One")
+    /** phone (item) names */
+    private var phonesHTC = arrayOf("Sensation", "Desire", "Wildfire", "Hero")
+    private var phonesSams = arrayOf("Galaxy S II", "Galaxy Nexus", "Wave")
+    private var phonesLG = arrayOf("Optimus", "Optimus Link", "Optimus Black", "Optimus One")
 
-    // коллекция для групп
-    var groupData: ArrayList<Map<String, String?>>? = null
+    /** collection for groups */
+    private var groupData: ArrayList<Map<String, String?>>? = null
 
-    // коллекция для элементов одной группы
+    /** collection for elements of one group */
     var childDataItem: ArrayList<Map<String, String?>>? = null
 
-    // общая коллекция для коллекций элементов
+    /** general collection for item collections */
     var childData: ArrayList<ArrayList<Map<String, String?>>>? = null
 
-    // в итоге получится childData = ArrayList<childDataItem>
-    // список атрибутов группы или элемента
+    /*
+    * as a result, we get childData = ArrayList <childDataItem> ;
+    list of group or element attributes
+    * */
     var m: MutableMap<String, String?>? = null
     var elvMain: ExpandableListView? = null
 
@@ -35,56 +37,64 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // заполняем коллекцию групп из массива с названиями групп
+        /** fill in the collection of groups from an array with group names */
         groupData = ArrayList()
         for (group in groups) {
-            // заполняем список атрибутов для каждой группы
+            /** fill in the list of attributes for each group */
             m = HashMap()
-            (m as HashMap<String, String?>)["groupName"] = group // имя компании
-            groupData!!.add(m as HashMap<String, String?>)
+            /* company name */
+            (m as HashMap<String, String?>)["groupName"] = group
+            groupData?.add(m as HashMap<String, String?>)
         }
 
-        // список атрибутов групп для чтения
+        /* list of group attributes to read */
         val groupFrom = arrayOf("groupName")
-        // список ID view-элементов, в которые будет помещены атрибуты групп
+        /* list of view-element IDs, in which group attributes will be placed */
         val groupTo = intArrayOf(android.R.id.text1)
 
-
-        // создаем коллекцию для коллекций элементов
+        /* create a collection for item collections */
         childData = ArrayList()
 
-        // создаем коллекцию элементов для первой группы
+        /* create a collection of items for the first group */
         childDataItem = ArrayList()
-        // заполняем список атрибутов для каждого элемента
+        /* fill in the list of attributes for each element */
         for (phone in phonesHTC) {
             m = HashMap()
-            (m as HashMap<String, String?>)["phoneName"] = phone // название телефона
-            childDataItem!!.add(m as HashMap<String, String?>)
+            /* phone name */
+            (m as HashMap<String, String?>)["phoneName"] = phone
+            childDataItem?.add(m as HashMap<String, String?>)
         }
-        // добавляем в коллекцию коллекций
-        childData!!.add(childDataItem!!)
+        /* adding the collection of collections */
+        if (childDataItem != null) {
+            childData?.add(childDataItem!!)
+        }
 
-        // создаем коллекцию элементов для второй группы
+        /* creating a collection of items for the second group */
         childDataItem = ArrayList()
         for (phone in phonesSams) {
             m = HashMap()
             (m as HashMap<String, String?>)["phoneName"] = phone
-            childDataItem!!.add(m as HashMap<String, String?>)
+            childDataItem?.add(m as HashMap<String, String?>)
         }
-        childData!!.add(childDataItem!!)
+        if (childDataItem != null) {
+            childData?.add(childDataItem!!)
+        }
 
-        // создаем коллекцию элементов для третьей группы
+        /* creating a collection of elements for the third group */
         childDataItem = ArrayList()
         for (phone in phonesLG) {
             m = HashMap()
             (m as HashMap<String, String?>)["phoneName"] = phone
-            childDataItem!!.add(m as HashMap<String, String?>)
+            childDataItem?.add(m as HashMap<String, String?>)
         }
-        childData!!.add(childDataItem!!)
 
-        // список атрибутов элементов для чтения
+        if (childDataItem != null) {
+            childData?.add(childDataItem!!)
+        }
+
+        /* list of element attributes to read */
         val childFrom = arrayOf("phoneName")
-        // список ID view-элементов, в которые будет помещены атрибуты элементов
+        /* list of ID view-elements, which will contain the attributes of the elements */
         val childTo = intArrayOf(android.R.id.text1)
         val adapter = SimpleExpandableListAdapter(
                 this,
@@ -97,6 +107,6 @@ class MainActivity : Activity() {
                 childFrom,
                 childTo)
         elvMain = findViewById<View>(R.id.elvMain) as ExpandableListView
-        elvMain!!.setAdapter(adapter)
+        elvMain?.setAdapter(adapter)
     }
 }
